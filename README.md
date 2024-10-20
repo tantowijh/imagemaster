@@ -19,6 +19,8 @@ This project is a Django-based web application that allows users to upload image
 - OpenCV 4.10.0.84
 - Pillow 11.0.0
 - Django Widget Tweaks 1.5.0
+- Node.js 14.x or higher
+- npm 6.x or higher
 
 ## Installation
 
@@ -39,12 +41,27 @@ This project is a Django-based web application that allows users to upload image
     pip install -r requirements.txt
     ```
 
-4. **Apply migrations**:
+4. **Initialize Tailwind CSS**:
+    ```sh
+    python manage.py tailwind init
+    ```
+
+5. **Install Tailwind CSS**:
+    ```sh
+    python manage.py tailwind install
+    ```
+
+6. **Build the CSS**:
+    ```sh
+    python manage.py tailwind build
+    ```
+
+7. **Apply migrations**:
     ```sh
     python manage.py migrate
     ```
 
-5. **Run the development server**:
+8. **Run the development server**:
     ```sh
     python manage.py runserver
     ```
