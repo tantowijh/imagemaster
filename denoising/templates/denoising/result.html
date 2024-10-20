@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Denoised Image Result{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Denoised Image Result</h1>
+    <div class="bg-white p-4 rounded-lg shadow-lg">
+        <div class="diff aspect-[1] w-full max-w-xl">
+            <div class="diff-item-1">
+                <img alt="Denoised Image"
+                    src="{{ denoised_image_url }}" />
+            </div>
+            <div class="diff-item-2">
+                <img alt="Original Image"
+                    src="{{ uploaded_file_url }}" />
+            </div>
+            <div class="diff-resizer"></div>
+        </div>
+        <div class="mt-4 flex justify-between w-full max-w-xl">
+            <a href="{% url 'denoising:index' %}" class="btn btn-outline btn-info">Upload Another Image</a>
+            <a href="{{ denoised_image_url }}" download class="btn btn-outline btn-success">Download Result</a>
+        </div>
+    </div>
+{% endblock %}

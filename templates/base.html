@@ -1,0 +1,36 @@
+<!-- imagerestoration/templates/base.html -->
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Image Processing{% endblock %}</title>
+    {% load widget_tweaks %}
+    {% tailwind_css %}
+    {% block styles %}{% endblock %}
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-1/4 bg-white shadow-lg p-4">
+            <h2 class="text-2xl font-bold mb-4">Menu</h2>
+            <ul class="menu bg-base-100 w-full p-2 rounded-box">
+                <li><a href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">Restoration</a></li>
+                <li><a href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise Blurr</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-3/4 p-4">
+            {% block content %}
+            <!-- Main content will be injected here -->
+            {% endblock %}
+        </div>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

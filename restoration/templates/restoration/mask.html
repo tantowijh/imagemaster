@@ -1,0 +1,130 @@
+<!-- mask.html -->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mask Image{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Draw Mask on Image</h1>
+    <div class="bg-white p-4 rounded-lg shadow-lg">
+        <div class="relative">
+            <img id="uploaded-image" src="{{ uploaded_file_url }}" class="w-full max-w-xl" alt="Uploaded Image">
+            <canvas id="mask-canvas" class="absolute top-0 left-0 w-full max-w-xl cursor-pencil"></canvas>
+        </div>
+        <div class="mt-4 flex justify-between w-full max-w-xl">
+            <div>
+                <label for="pencil-size" class="block text-sm font-medium text-gray-700 mb-2">Pencil Size</label>
+                <input type="range" id="pencil-size" min="1" max="20" value="5" class="slider">
+            </div>
+            <div>
+                <button id="reset-canvas" class="btn btn-outline btn-warning">Reset</button>
+                <button id="save-mask" class="btn btn-outline btn-info">Start Restoring</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden form to submit the data -->
+    <form id="restoration-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .cursor-pencil {
+        cursor: url('{% static "images/pencil-icon.png" %}') 0 24, auto;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const canvas = document.getElementById('mask-canvas');
+        const ctx = canvas.getContext('2d');
+        const image = document.getElementById('uploaded-image');
+        const pencilSizeSlider = document.getElementById('pencil-size');
+        const resetButton = document.getElementById('reset-canvas');
+        const restorationForm = document.getElementById('restoration-form');
+        const maskInput = document.getElementById('mask-data');
+
+        function resizeCanvas() {
+            canvas.width = image.clientWidth;
+            canvas.height = image.clientHeight;
+            canvas.style.width = image.clientWidth + 'px';
+            canvas.style.height = image.clientHeight + 'px';
+        }
+
+        // Resize the canvas initially and whenever the window is resized
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        let drawing = false;
+        let pencilSize = 5;
+
+        pencilSizeSlider.addEventListener('input', function () {
+            pencilSize = this.value;
+        });
+
+        canvas.addEventListener('mousedown', (event) => {
+            drawing = true;
+            draw(event);
+        });
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+            ctx.beginPath(); // Reset the drawing path
+        });
+        canvas.addEventListener('mousemove', draw);
+
+        function draw(event) {
+            if (!drawing) return;
+
+            ctx.lineWidth = pencilSize;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = 'white';
+
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        resetButton.addEventListener('click', function () {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        document.getElementById('save-mask').addEventListener('click', function () {
+            // Create an offscreen canvas to save the mask at the actual image size
+            const offscreenCanvas = document.createElement('canvas');
+            offscreenCanvas.width = image.naturalWidth;
+            offscreenCanvas.height = image.naturalHeight;
+            const offscreenCtx = offscreenCanvas.getContext('2d');
+
+            // Scale the drawing from the rendered size to the actual size
+            const scaleX = image.naturalWidth / canvas.width;
+            const scaleY = image.naturalHeight / canvas.height;
+            offscreenCtx.scale(scaleX, scaleY);
+            offscreenCtx.drawImage(canvas, 0, 0);
+
+            // Set the canvas background to black before saving
+            offscreenCtx.globalCompositeOperation = 'destination-over';
+            offscreenCtx.fillStyle = 'black';
+            offscreenCtx.fillRect(0, 0, offscreenCanvas.width, offscreenCanvas.height);
+
+            const maskDataUrl = offscreenCanvas.toDataURL('image/png');
+
+            // Populate the hidden form and submit it
+            maskInput.value = maskDataUrl;
+            restorationForm.submit();
+
+            // Reset the globalCompositeOperation to default
+            offscreenCtx.globalCompositeOperation = 'source-over';
+        });
+    });
+</script>
+{% endblock %}
