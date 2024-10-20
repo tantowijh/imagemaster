@@ -30,14 +30,6 @@
     </form>
 {% endblock %}
 
-{% block styles %}
-<style>
-    .cursor-pencil {
-        cursor: url('{% static "images/pencil-icon.png" %}') 0 24, auto;
-    }
-</style>
-{% endblock %}
-
 {% block scripts %}
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -57,7 +49,9 @@
         }
 
         // Resize the canvas initially and whenever the window is resized
-        resizeCanvas();
+        image.addEventListener('load', function() {
+            resizeCanvas();
+        });
         window.addEventListener('resize', resizeCanvas);
 
         let drawing = false;

@@ -1,0 +1,4 @@
+/* static/css/styles.css */
+.cursor-pencil {
+    cursor: url('/static/images/pencil-icon.png') 0 24, auto;
+}
