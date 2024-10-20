@@ -24,7 +24,7 @@ This project is a Django-based web application that allows users to upload image
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/yourusername/yourproject.git
+    git clone https://github.com/tantowijh/imagerestoration.git
     cd yourproject
     ```
 
