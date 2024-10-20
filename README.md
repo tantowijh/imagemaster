@@ -39,29 +39,23 @@ This project is a Django-based web application that allows users to upload image
 3. **Install the dependencies**:
     ```sh
     pip install -r requirements.txt
-    ```
 
-4. **Initialize Tailwind CSS**:
-    ```sh
-    python manage.py tailwind init
-    ```
-
-5. **Install Tailwind CSS**:
+4. **Install Tailwind CSS**:
     ```sh
     python manage.py tailwind install
     ```
 
-6. **Build the CSS**:
+5. **Build the CSS**:
     ```sh
     python manage.py tailwind build
     ```
 
-7. **Apply migrations**:
+6. **Apply migrations**:
     ```sh
     python manage.py migrate
     ```
 
-8. **Run the development server**:
+7. **Run the development server**:
     ```sh
     python manage.py runserver
     ```
