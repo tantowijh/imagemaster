@@ -18,12 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from .views import cleanup_media_and_redirect
+from .utils import cleanup_media_and_redirect
 
 urlpatterns = [
     path('cleanup/<str:redirect_url_name>/', cleanup_media_and_redirect, name='cleanup_media_and_redirect'),
     path('', include('restoration.urls')),
-    path('denoising', include('denoising.urls')),
+    path('denoising/', include('denoising.urls')),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
