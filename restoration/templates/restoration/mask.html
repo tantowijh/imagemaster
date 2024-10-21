@@ -46,12 +46,17 @@
             canvas.height = image.clientHeight;
             canvas.style.width = image.clientWidth + 'px';
             canvas.style.height = image.clientHeight + 'px';
+            console.log('Canvas resized:', canvas.width, canvas.height); // Debugging information
         }
 
         // Resize the canvas initially and whenever the window is resized
-        image.addEventListener('load', function() {
+        if (image.complete) {
             resizeCanvas();
-        });
+        } else {
+            image.addEventListener('load', function() {
+                resizeCanvas();
+            });
+        }
         window.addEventListener('resize', resizeCanvas);
 
         let drawing = false;

@@ -1,5 +1,5 @@
 <!-- imagerestoration/templates/base.html -->
-{% load static tailwind_tags %}
+{% load static tailwind_tags custom_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +19,10 @@
         <div class="w-1/4 bg-white shadow-lg p-4">
             <h2 class="text-2xl font-bold mb-4">Menu</h2>
             <ul class="menu bg-base-100 w-full p-2 rounded-box">
-                <li><a href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">Restoration</a></li>
-                <li><a href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise Blurr</a></li>
+                <li><a class="{% set_active 'restoration:index' 'restoration:mask' 'restoration:result' %}" 
+                    href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">Image Restoration</a></li>
+                <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
+                    href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise image</a></li>
             </ul>
         </div>
 
