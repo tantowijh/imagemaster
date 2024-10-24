@@ -1,5 +1,5 @@
 from django import template
-from django.urls import reverse
+from django.urls import reverse, NoReverseMatch
 
 register = template.Library()
 
@@ -8,7 +8,10 @@ def set_active(context, *url_names):
     request = context['request']
     current_path = request.path
     for url_name in url_names:
-        target_path = reverse(url_name)
-        if current_path == target_path:
-            return 'active'
+        try:
+            target_path = reverse(url_name)
+            if current_path == target_path:
+                return 'active'
+        except NoReverseMatch:
+            continue
     return ''

@@ -17,3 +17,6 @@ class MaskForm(forms.Form):
     mask = forms.CharField(widget=forms.HiddenInput(
         attrs={'id': 'mask-data'}
     ))
+    prompt = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'input w-full max-w-xl'
+    }))

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}Image Enhancement{% endblock %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold mb-4">Enhance Your Image</h1>
+    <div class="bg-white p-4 rounded-lg shadow-lg">
+        {% include "message.html" %}
+        <form method="POST" id="upload-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-4">
+                <label for="image-upload" class="label block text-sm font-medium text-gray-700">{{ form.image.label_tag }}</label>
+                {% render_field form.image class="file-input file-input-bordered w-full max-w-xs" id="image-upload" %}
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-outline btn-info" {% if not colab_api_url_provided %}disabled{% endif %}>Start Enhancing</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
