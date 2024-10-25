@@ -52,6 +52,10 @@ class MaskView(generic.FormView):
         image = self.request.session['uploaded_file_name']
         mask_data = form.cleaned_data['mask']
         prompt = form.cleaned_data['prompt']
+        guidance_scale = form.cleaned_data['guidance_scale']
+        num_inference_steps = form.cleaned_data['num_inference_steps']
+        strength = form.cleaned_data['strength']
+        seed = form.cleaned_data['seed']
         
         format, imgstr = mask_data.split(';base64,')
         fs = FileSystemStorage()
@@ -59,9 +63,23 @@ class MaskView(generic.FormView):
         mask = fs.save(mask_data.name, mask_data)
 
         files = {'image': fs.open(image), 'mask': fs.open(mask)}
-        data = {'prompt': prompt}
+        data = {
+            'prompt': prompt,
+            'guidance_scale': guidance_scale,
+            'num_inference_steps': num_inference_steps,
+            'strength': strength,
+            'seed': seed
+        }
 
-        response = requests.post(restoration_api_url, files=files, data=data)
+        try:
+            response = requests.post(restoration_api_url, files=files, data=data, timeout=120)
+        except requests.RequestException as e:
+            messages.error(self.request, "Network error occurred. Please check your connection and try again.")
+            return redirect('restoration:index')
+
+        if response.status_code != 200:
+            messages.error(self.request, "Failed to restore the image. Please try again.")
+            return redirect('restoration:index')
 
         # Ensure the output path is in the media directory
         base_dir = os.path.dirname(fs.path(image))

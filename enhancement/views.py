@@ -22,7 +22,16 @@ class IndexView(generic.FormView):
         uploaded_image = fs.save(image.name, image)
         uploaded_file_url = fs.url(uploaded_image)
         filename = fs.path(uploaded_image)
-        response = requests.post(colab_api_url, files=files)
+
+        try:
+            response = requests.post(colab_api_url, files=files, timeout=120)
+        except requests.RequestException:
+            messages.error(self.request, "Failed to connect to the enhancement service. Please try again.")
+            return redirect('enhancement:index')
+
+        if response.status_code != 200:
+            messages.error(self.request, "Failed to enhance the image. Please try again.")
+            return redirect('enhancement:index')
         
         # Ensure the output path is in the media directory
         base_dir = os.path.dirname(filename)
