@@ -1,6 +1,6 @@
 from django.conf import settings
 
-def replicate_token(request):
+def colab_api_url(request):
     return {
         'colab_api_url_provided': settings.COLAB_API_URL != '',
     }

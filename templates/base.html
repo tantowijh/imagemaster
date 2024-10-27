@@ -25,11 +25,9 @@
                 <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
                     href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise image</a>
                 </li>
-                {% if colab_api_url_provided %}
                 <li><a class="{% set_active 'enhancement:index' 'enhancement:result' %}" 
                     href="{% url 'cleanup_media_and_redirect' 'enhancement:index' %}">Image Enhancement</a>
                 </li>
-                {% endif %}
             </ul>
         </div>
 

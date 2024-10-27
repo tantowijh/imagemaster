@@ -14,37 +14,12 @@ from pathlib import Path
 import os
 import platform
 from dotenv import load_dotenv
-import re
-import requests
-from django.core.exceptions import ImproperlyConfigured
 
 # Load environment variables from .env file
 load_dotenv(dotenv_path='.env', override=True)
 
 # Load the Replicate API token from the environment
 COLAB_API_URL = os.getenv('COLAB_API_URL')
-
-# Function to validate URL
-def is_valid_url(url):
-    regex = re.compile(
-        r'^(?:http|ftp)s?://'  # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-        r'localhost|'  # localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
-        r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
-        r'(?::\d+)?'  # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-    if re.match(regex, url) is None:
-        return False
-    try:
-        response = requests.get(url)
-        return response.status_code == 200
-    except requests.RequestException:
-        return False
-
-# Check if COLAB_API_URL is set and valid
-if not COLAB_API_URL or not is_valid_url(COLAB_API_URL):
-    raise ImproperlyConfigured("The COLAB_API_URL environment variable is not set or is not a valid URL.")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -112,7 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'imagerestoration.context_processors.replicate_token',
+                'imagerestoration.context_processors.colab_api_url',
             ],
         },
     },

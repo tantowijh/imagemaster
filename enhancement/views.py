@@ -7,6 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ImageUploadForm
 from django.views import generic
 from django.contrib import messages
+from imagerestoration.utils import check_valid_colab_api_url
 
 colab_api_url = f'{settings.COLAB_API_URL}/enhance'
 
@@ -15,7 +16,8 @@ class IndexView(generic.FormView):
     form_class = ImageUploadForm
     success_url = reverse_lazy('enhancement:result')
 
-    def form_valid(self, form):
+    @check_valid_colab_api_url('restoration:index')
+    def form_valid(self, form):        
         image = form.cleaned_data['image']
         files = {'image': image.read()}  # Read the image file content
         fs = FileSystemStorage()
