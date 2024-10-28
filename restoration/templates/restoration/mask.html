@@ -1,33 +1,72 @@
 <!-- mask.html -->
 {% extends "base.html" %}
-{% load static %}
+{% load static widget_tweaks %}
 
 {% block title %}Mask Image{% endblock %}
 
 {% block content %}
     <h1 class="text-3xl font-bold mb-4">Draw Mask on Image</h1>
-    <div class="bg-white p-4 rounded-lg shadow-lg">
-        <div class="relative">
-            <img id="uploaded-image" src="{{ uploaded_file_url }}" class="w-full max-w-xl" alt="Uploaded Image">
-            <canvas id="mask-canvas" class="absolute top-0 left-0 w-full max-w-xl cursor-pencil"></canvas>
+        <div class="bg-white p-4 rounded-lg shadow-lg">
+        <div class="flex justify-between w-full">
+            <div class="relative">
+                <img id="uploaded-image" src="{{ uploaded_file_url }}" class="w-full max-w-xl" alt="Uploaded Image">
+                <canvas id="mask-canvas" class="absolute top-0 left-0 w-full max-w-xl cursor-pencil"></canvas>
+            </div>
+            <div class="ml-4 w-full max-w-md">
+                <h2 class="text-xl font-semibold">Restoration Configuration</h2>
+                <form id="restoration-form" method="post">
+                    {% csrf_token %}
+                    {{ form.mask }}
+                    <div>
+                        <label class="label block text-sm font-medium text-gray-700">{{ form.prompt.label_tag }}</label>
+                        {% render_field form.prompt class="textarea textarea-bordered w-full" %}
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-1/2 pr-2">
+                            <label class="label block text-sm font-medium text-gray-700">{{ form.guidance_scale.label_tag }}</label>
+                            {% render_field form.guidance_scale class="input input-bordered w-full" %}
+                        </div>
+                        <div class="w-1/2 pl-2">
+                            <label class="label block text-sm font-medium text-gray-700">{{ form.num_inference_steps.label_tag }}</label>
+                            {% render_field form.num_inference_steps class="input input-bordered w-full" %}
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-1/2 pr-2">
+                            <label class="label block text-sm font-medium text-gray-700">{{ form.strength.label_tag }}</label>
+                            {% render_field form.strength class="input input-bordered w-full" %}
+                        </div>
+                        <div class="w-1/2 pl-2">
+                            <label class="label block text-sm font-medium text-gray-700">{{ form.seed.label_tag }}</label>
+                            {% render_field form.seed class="input input-bordered w-full" %}
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="mt-4 flex justify-between w-full max-w-xl">
+        <div class="mt-4 flex justify-between w-full">
             <div>
                 <label for="pencil-size" class="block text-sm font-medium text-gray-700 mb-2">Pencil Size</label>
-                <input type="range" id="pencil-size" min="1" max="20" value="5" class="slider">
+                <input type="range" id="pencil-size" min="1" max="50" value="5" class="slider">
             </div>
             <div>
-                <button id="reset-canvas" class="btn btn-outline btn-warning">Reset</button>
+                <button id="reset-canvas" class="btn btn-outline btn-warning">Reset Pencil</button>
+                <button id="reset-config" class="btn btn-outline">Reset Config</button>
                 <button id="save-mask" class="btn btn-outline btn-info">Start Restoring</button>
             </div>
         </div>
-    </div>
 
-    <!-- Hidden form to submit the data -->
-    <form id="restoration-form" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-    </form>
+        <div class="mt-4">
+            <h4 class="text-lg font-semibold">Configuration Description</h4>
+            <div class="text-sm text-gray-600 mt-2">
+                <p><strong>Prompt:</strong> Guides the image generation. Clearer prompts lead to better results.</p>
+                <p><strong>Guidance Scale:</strong> Balances prompt vs. original image. Higher values prioritize the prompt.</p>
+                <p><strong>Num Inference Steps:</strong> Determines image quality and computational cost. More steps = higher quality but slower.</p>
+                <p><strong>Strength:</strong> Controls how much the original image is preserved. Higher values preserve more.</p>
+                <p><strong>Seed:</strong> Randomizes the generation process. Changing the seed produces different results.</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
@@ -38,6 +77,7 @@
         const image = document.getElementById('uploaded-image');
         const pencilSizeSlider = document.getElementById('pencil-size');
         const resetButton = document.getElementById('reset-canvas');
+        const resetConfigButton = document.getElementById('reset-config');
         const restorationForm = document.getElementById('restoration-form');
         const maskInput = document.getElementById('mask-data');
 
@@ -95,6 +135,10 @@
 
         resetButton.addEventListener('click', function () {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        resetConfigButton.addEventListener('click', function () {
+            restorationForm.reset();
         });
 
         document.getElementById('save-mask').addEventListener('click', function () {

@@ -20,9 +20,14 @@
             <h2 class="text-2xl font-bold mb-4">Menu</h2>
             <ul class="menu bg-base-100 w-full p-2 rounded-box">
                 <li><a class="{% set_active 'restoration:index' 'restoration:mask' 'restoration:result' %}" 
-                    href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">Image Restoration</a></li>
+                    href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">Image Restoration</a>
+                </li>
                 <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
-                    href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise image</a></li>
+                    href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">Denoise image</a>
+                </li>
+                <li><a class="{% set_active 'enhancement:index' 'enhancement:result' %}" 
+                    href="{% url 'cleanup_media_and_redirect' 'enhancement:index' %}">Image Enhancement</a>
+                </li>
             </ul>
         </div>
 
