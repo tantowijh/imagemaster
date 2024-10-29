@@ -7,17 +7,16 @@ from django.core.files.storage import FileSystemStorage
 from .forms import ImageUploadForm
 from django.views import generic
 from django.contrib import messages
-from imagerestoration.utils import check_valid_colab_api_url
-
-colab_api_url = f'{settings.COLAB_API_URL}/enhance'
+from imagerestoration.utils import check_valid_colab_api_url, get_colab_api_url
 
 class IndexView(generic.FormView):
     template_name = 'enhancement/index.html'
     form_class = ImageUploadForm
     success_url = reverse_lazy('enhancement:result')
 
-    @check_valid_colab_api_url('restoration:index')
-    def form_valid(self, form):        
+    @check_valid_colab_api_url('configuration:configure')
+    def form_valid(self, form):
+        enhance_api_url = f'{get_colab_api_url()}/enhance'
         image = form.cleaned_data['image']
         files = {'image': image.read()}  # Read the image file content
         fs = FileSystemStorage()
@@ -26,7 +25,7 @@ class IndexView(generic.FormView):
         filename = fs.path(uploaded_image)
 
         try:
-            response = requests.post(colab_api_url, files=files, timeout=120)
+            response = requests.post(enhance_api_url, files=files, timeout=120)
         except requests.RequestException:
             messages.error(self.request, "Failed to connect to the enhancement service. Please try again.")
             return redirect('enhancement:index')

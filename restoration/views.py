@@ -9,16 +9,14 @@ import base64
 from django.core.files.base import ContentFile
 import requests
 import os
-from imagerestoration.utils import check_valid_colab_api_url
-
-restoration_api_url = f'{settings.COLAB_API_URL}/restore'
+from imagerestoration.utils import check_valid_colab_api_url, get_colab_api_url
 
 class IndexView(generic.FormView):
     template_name = 'restoration/index.html'
     form_class = forms.ImageUploadForm
     success_url = reverse_lazy('restoration:mask')
 
-    @check_valid_colab_api_url('restoration:index')
+    @check_valid_colab_api_url('configuration:configure')
     def form_valid(self, form):
         image = form.cleaned_data['image']
         fs = FileSystemStorage()
@@ -51,6 +49,7 @@ class MaskView(generic.FormView):
         return context
     
     def form_valid(self, form):
+        restoration_api_url = f'{get_colab_api_url()}/restore'
         image = self.request.session['uploaded_file_name']
         mask_data = form.cleaned_data['mask']
         prompt = form.cleaned_data['prompt']
