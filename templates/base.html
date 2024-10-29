@@ -23,17 +23,17 @@
                 <ul class="menu bg-base-100 w-full p-2 rounded-box">
                     <li><a class="{% set_active 'restoration:index' 'restoration:mask' 'restoration:result' %}" 
                         href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">
-                        <i class="fa-solid fa-paint-roller"></i>
+                        <i class="fa-solid fa-paint-roller mr-2"></i>
                         Image Restoration</a>
                     </li>
                     <li><a class="{% set_active 'enhancement:index' 'enhancement:result' %}" 
                         href="{% url 'cleanup_media_and_redirect' 'enhancement:index' %}">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
                         Image Enhancement</a>
                     </li>
                     <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
                         href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">
-                        <i class="fa-solid fa-eraser"></i>
+                        <i class="fa-solid fa-eraser mr-2"></i>
                         Image Denoising</a>
                     </li>
                 </ul>
@@ -43,7 +43,7 @@
                     <li>
                         <a class="{% set_active 'configuration:configure' %}" 
                         href="{% url 'cleanup_media_and_redirect' 'configuration:configure' %}">
-                        <i class="fa-solid fa-pen-ruler"></i>
+                        <i class="fa-solid fa-pen-ruler mr-2"></i>
                         Configuration</a>
                     </li>
                 </ul>
