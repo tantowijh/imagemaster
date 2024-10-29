@@ -1,6 +1,6 @@
-from django.conf import settings
+from imagerestoration.utils import get_colab_api_url
 
 def colab_api_url(request):
     return {
-        'colab_api_url_provided': settings.COLAB_API_URL != '',
+        'colab_api_url_provided': get_colab_api_url() != '',
     }

@@ -45,36 +45,28 @@ This project is a Django-based web application that allows users to upload image
     pip install -r requirements.txt
     ```
 
-4. **Copy the environment variables**:
-    ```sh
-    cp .env.example .env    # On Windows use `copy .env.example .env`
-    ```
-
-5. **See the usage section to set up the Google Colab API**.
-    ```sh
-    # Add the provided URL to the .env file:
-    COLAB_API_URL=<your_colab_api_url>
-    ```
-
-6. **Install Tailwind CSS**:
+4. **Install Tailwind CSS**:
     ```sh
     python manage.py tailwind install
     ```
 
-7. **Build the CSS**:
+5. **Build the CSS**:
     ```sh
     python manage.py tailwind build
     ```
 
-8. **Apply migrations**:
+6. **Apply migrations**:
     ```sh
     python manage.py migrate
     ```
 
-9. **Run the development server**:
+7. **Run the development server**:
     ```sh
     python manage.py runserver
     ```
+
+## Access the application
+Image Restoration (Stable Diffusion) and Image Enhancement (Real-ESRGAN) features can can only be used when the Google Colab API is set up. Follow the instructions below to set up the Google Colab API.
 
 ## Google Colab API Setup
 
@@ -87,14 +79,9 @@ To use the Google Colab API for running Stable Diffusion and Real-ESRGAN tasks, 
 2. **Run the notebook**:
     - Follow the instructions in the notebook to set up the API. This will provide you with a URL.
 
-3. **Update the `.env` file**:
-    - Add the provided URL to the `.env` file in the project directory:
-    ```env
-    COLAB_API_URL=<your_colab_api_url>
-    ```
-
-4. **Restart the Django server**:
-    - Restart the Django development server to apply the changes.
+3. **Update the configuration**:
+    - Add the provided URL to the configuration page in the Django App.
+    - The configuration page can be accessed by navigating to `/configuration`.
 
 ## Usage
 

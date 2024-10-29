@@ -13,13 +13,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import platform
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv(dotenv_path='.env', override=True)
-
-# Load the Replicate API token from the environment
-COLAB_API_URL = os.getenv('COLAB_API_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'configuration.apps.ConfigurationConfig',
     'enhancement.apps.EnhancementConfig',
     'restoration.apps.RestorationConfig',
     'denoising.apps.DenoisingConfig',

@@ -1,4 +1,3 @@
-# views.py
 import os
 from django.conf import settings
 from django.shortcuts import redirect
@@ -8,6 +7,7 @@ import requests
 import logging
 from django.contrib import messages
 from functools import wraps
+from configuration.models import Configuration
 
 def cleanup_media_and_redirect(request, redirect_url_name):
     media_dir = settings.MEDIA_ROOT
@@ -41,15 +41,22 @@ def is_valid_url(url):
     if re.match(regex, url) is None:
         return False
     try:
-        response = requests.get(url, timeout=5)  # Set a timeout of 5 seconds
+        response = requests.get(url)  # Set a timeout of 5 seconds
         return response.status_code == 200
     except requests.RequestException as e:
         logger.error(f"Error validating URL {url}: {e}")
         return False
 
+def get_colab_api_url():
+    try:
+        return Configuration.objects.get(key='COLAB_API_URL').value
+    except Configuration.DoesNotExist:
+        return ''
+
 # Function to check COLAB_API_URL
 def valid_colab_api_url():
-    colab_api_url = settings.COLAB_API_URL
+    colab_api_url = get_colab_api_url()
+    print(f"Checking COLAB_API_URL: {colab_api_url}")
     return is_valid_url(colab_api_url)
 
 def check_valid_colab_api_url(redirect_url):
@@ -63,7 +70,7 @@ def check_valid_colab_api_url(redirect_url):
                 request = args[0]  # function-based view
 
             if not valid_colab_api_url():
-                messages.error(request, "Invalid COLAB_API_URL. Please check the configuration and restart the app.")
+                messages.error(request, "Invalid google colab API URL. Please configure the correct URL.")
                 return redirect(redirect_url)
             return view_func(*args, **kwargs)
         return _wrapped_view
