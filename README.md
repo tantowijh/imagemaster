@@ -1,5 +1,7 @@
 # Image Restoration and Denoising
 
+![Image Restoration](docs/images/image-restoration.webp)
+
 This project is a Django-based web application that allows users to upload images, draw masks on them, and perform image restoration and denoising. The application uses OpenCV for image processing and provides a user-friendly interface for interacting with the images. Additionally, it leverages Google Colab for running GPU-intensive tasks like Stable Diffusion and Real-ESRGAN.
 
 ## Features
