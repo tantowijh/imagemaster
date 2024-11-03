@@ -37,7 +37,14 @@ This project is a Django-based web application that allows users to upload image
 2. **Create a virtual environment**:
     ```sh
     python -m venv venv
-    source venv/bin/activate    # On Windows use `venv\Scripts\activate`
+    ```
+    Activate the virtual environment (Unix-based):
+    ```sh
+    source venv/bin/activate
+    ```
+    Activate the virtual environment (Windows):
+    ```sh
+    venv\Scripts\activate
     ```
 
 3. **Install the dependencies**:
