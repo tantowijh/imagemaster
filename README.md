@@ -24,7 +24,6 @@ This project is a Django-based web application that allows users to upload image
 - Pillow 11.0.0
 - Django Widget Tweaks 1.5.0
 - Requests 2.32.3
-- Python Dotenv 1.0.1
 - Node.js 14.x or higher
 - npm 6.x or higher
 
