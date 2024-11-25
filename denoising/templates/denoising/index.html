@@ -5,8 +5,8 @@
 {% block title %}Denoising Image{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold mb-4">Denoise Your Image</h1>
     <div class="bg-white p-4 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-4">Denoise Your Image</h1>
         {% include "message.html" %}
         <form method="POST" id="upload-form" enctype="multipart/form-data">
             {% csrf_token %}

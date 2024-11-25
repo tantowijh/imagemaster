@@ -5,8 +5,8 @@
 {% block title %}Configuration{% endblock %}
 
 {% block content %}
-    <h1 class="text-3xl font-bold mb-4">Configure COLAB API URL</h1>
     <div class="bg-white p-4 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-4">Configure COLAB API URL</h1>
         {% include "message.html" %}
         <form method="POST">
             {% csrf_token %}

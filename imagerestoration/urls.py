@@ -20,6 +20,7 @@ from django.shortcuts import redirect
 from django.conf.urls.static import static
 from django.conf import settings
 from .utils import cleanup_media_and_redirect
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('configuration/', include('configuration.urls')),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('denoising/', include('denoising.urls')),
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('', lambda request: redirect('restoration:index')),
+    path('', TemplateView.as_view(template_name='homepage.html'), name='homepage'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

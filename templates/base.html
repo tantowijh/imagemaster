@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" sizes="any">
     <title>{% block title %}Image Processing{% endblock %}</title>
     {% load widget_tweaks %}
     {% tailwind_css %}
@@ -15,49 +16,70 @@
 </head>
 
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
-    <div class="flex min-h-screen">
-        <!-- Sidebar -->
-        <div class="w-1/4 bg-white shadow-lg p-4 flex flex-col justify-between">
-            <div>
-                <h2 class="text-2xl font-bold mb-4">Menu</h2>
-                <ul class="menu bg-base-100 w-full p-2 rounded-box">
-                    <li><a class="{% set_active 'restoration:index' 'restoration:mask' 'restoration:result' %}" 
-                        href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">
-                        <i class="fa-solid fa-paint-roller mr-2"></i>
-                        Image Restoration</a>
-                    </li>
-                    <li><a class="{% set_active 'enhancement:index' 'enhancement:result' %}" 
-                        href="{% url 'cleanup_media_and_redirect' 'enhancement:index' %}">
-                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
-                        Image Enhancement</a>
-                    </li>
-                    <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
-                        href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">
-                        <i class="fa-solid fa-eraser mr-2"></i>
-                        Image Denoising</a>
-                    </li>
-                </ul>
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle">
+        <div class="drawer-content flex flex-col min-h-screen p-4">
+            <!-- Navbar for mobile -->
+            <div class="w-full navbar bg-base-100 rounded-lg mb-4 lg:hidden">
+                <div class="flex-none">
+                    <label for="my-drawer" class="btn btn-square btn-ghost">
+                        <i class="fa-solid fa-bars"></i>
+                    </label>
+                </div>
+                <div class="flex-1 px-2 mx-2">
+                    <a href="{% url 'homepage' %}">
+                        <img src="{% static 'images/logo.svg' %}" alt="ImageMaster" class="h-10">
+                    </a>
+                </div>
             </div>
-            <div>
-                <ul class="menu bg-base-100 w-full p-2 rounded-box mt-4">
-                    <li>
-                        <a class="{% set_active 'configuration:configure' %}" 
-                        href="{% url 'cleanup_media_and_redirect' 'configuration:configure' %}">
-                        <i class="fa-solid fa-pen-ruler mr-2"></i>
-                        Configuration</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
 
-        <!-- Main Content -->
-        <div class="w-3/4 p-4">
+            <!-- Page content here -->
             {% block content %}
             <!-- Main content will be injected here -->
             {% endblock %}
+        </div> 
+
+        <div class="drawer-side">
+            <label for="my-drawer" class="drawer-overlay lg:hidden"></label> 
+            <div class="w-80 bg-white shadow-lg p-4 flex flex-col justify-between min-h-full">
+                <div>
+                    <div class="hidden lg:flex items-center justify-center mb-4">
+                        <a href="{% url 'homepage' %}">
+                            <img src="{% static 'images/logo.svg' %}" alt="ImageMaster" class="h-9">
+                        </a>
+                    </div>
+                    <ul class="menu bg-base-100 w-full p-2 rounded-box">
+                        <li><a class="{% set_active 'restoration:index' 'restoration:mask' 'restoration:result' %}" 
+                            href="{% url 'cleanup_media_and_redirect' 'restoration:index' %}">
+                            <i class="fa-solid fa-paint-roller mr-2"></i>
+                            Image Restoration</a>
+                        </li>
+                        <li><a class="{% set_active 'enhancement:index' 'enhancement:result' %}" 
+                            href="{% url 'cleanup_media_and_redirect' 'enhancement:index' %}">
+                            <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+                            Image Enhancement</a>
+                        </li>
+                        <li><a class="{% set_active 'denoising:index' 'denoising:result' %}" 
+                            href="{% url 'cleanup_media_and_redirect' 'denoising:index' %}">
+                            <i class="fa-solid fa-eraser mr-2"></i>
+                            Image Denoising</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <ul class="menu bg-base-100 w-full p-2 rounded-box mt-4">
+                        <li>
+                            <a class="{% set_active 'configuration:configure' %}" 
+                            href="{% url 'cleanup_media_and_redirect' 'configuration:configure' %}">
+                            <i class="fa-solid fa-pen-ruler mr-2"></i>
+                            Configuration</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
+
     {% block scripts %}{% endblock %}
 </body>
-
 </html>
