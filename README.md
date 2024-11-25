@@ -2,7 +2,7 @@
 
 ![Image Master](docs/images/image-master.webp)
 
-This project is a Django-based web application that allows users to upload images, draw masks on them, and perform image restoration and denoising. The application uses OpenCV for image processing and provides a user-friendly interface for interacting with the images. Additionally, it leverages Google Colab for running GPU-intensive tasks like Stable Diffusion and Real-ESRGAN.
+This project is a Django-based web application that allows users to upload images, draw masks on them, and perform image restoration, image enhancement, and image denoising. The application uses OpenCV for image processing and provides a user-friendly interface for interacting with the images. Additionally, it leverages Google Colab for running GPU-intensive tasks like Stable Diffusion and Real-ESRGAN.
 
 ## Features
 
@@ -31,8 +31,10 @@ This project is a Django-based web application that allows users to upload image
 
 1. **Clone the repository**:
     ```sh
-    git clone https://github.com/tantowijh/imagerestoration.git
-    cd imagerestoration
+    git clone https://github.com/tantowijh/imagemaster.git
+    ```
+    ```sh
+    cd imagemaster
     ```
 
 2. **Create a virtual environment**:
@@ -74,7 +76,7 @@ This project is a Django-based web application that allows users to upload image
     ```
 
 ## Access the application
-Image Restoration (Stable Diffusion) and Image Enhancement (Real-ESRGAN) features can can only be used when the Google Colab API is set up. Follow the instructions below to set up the Google Colab API.
+Image Restoration (Stable Diffusion) and Image Enhancement (Real-ESRGAN) features can only be used when the Google Colab API is set up. Follow the instructions below to set up the Google Colab API.
 
 ## Google Colab API Setup
 
